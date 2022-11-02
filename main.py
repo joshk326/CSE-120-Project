@@ -103,5 +103,7 @@ if __name__ == "__main__":
 			guess = input("Enter a letter to see if it is in the chosen word: ")
 			print(check_letter(guess, letters))
 			lives -= 1
+			if lives == 0:
+				print("out of lives")
 
 	
