@@ -90,6 +90,7 @@ if __name__ == "__main__":
 		chosen_word = pick_word(f)
 		letters = {}
 
+		#Loop to place all letters in the chosen word into a dictionary
 		for l in chosen_word:
 			if l in letters:
 				letters[l] = letters[l] + 1
