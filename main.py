@@ -1,6 +1,13 @@
 import random
 import os
 
+class Colors:
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    DEFAULT = '\033[0m'
+
 def pick_word(file):
 	f = open(file, 'r')
 	ls = []
@@ -109,13 +116,13 @@ def show_word(word, correct_guesses):
 def game_loop():
 	os.system('cls')
 	print("======================================")
-	print("          Welcome to hangman          ")
+	print(Colors.DEFAULT, Colors.CYAN,"        Welcome to hangman          ", Colors.DEFAULT)
 	print("======================================")
-	print(" Rules:")
+	print(Colors.YELLOW,"Rules:", Colors.DEFAULT)
 	print(" * Select weather you want to pick a \n  word or letter.")
-	print(" * If you pick the wrong letter you lose one life.")
+	print(" * If you pick the wrong letter you\n  lose one life.")
 	print("======================================")
-	print(" Scoring:")
+	print(Colors.YELLOW,"Scoring:", Colors.DEFAULT)
 	print(" * 1 point for each correct guess.")
 	print(" * 10 extra points for each win.")
 	print("======================================")
@@ -147,11 +154,10 @@ def game_loop():
 
 			#print out the options, board, and messages
 			print("======================================")
-			print(" Available Word Guesses:", word_guesses)
-			print(" Incorrect Guesses",  "{} "if len(incorrect_guesses) == 0 else incorrect_guesses)
-			print(" Number of Guesses:", num_guesses)
-			print(" Word Length:", len(chosen_word) - 1)
-			print("\n Current Score:", score)
+			print(Colors.YELLOW + " Available Word Guesses:"  + Colors.DEFAULT, word_guesses)
+			print(Colors.YELLOW + " Incorrect Guesses:"  + Colors.DEFAULT,  "{} "if len(incorrect_guesses) == 0 else incorrect_guesses)
+			print(Colors.YELLOW + " Number of Guesses:"  + Colors.DEFAULT, num_guesses)
+			print(Colors.CYAN,"\n Current Score:" + Colors.DEFAULT,score)
 			print("======================================")
 
 			draw_board(hang_man, lives)
@@ -162,11 +168,11 @@ def game_loop():
 
 			if(len(messages) > 0):
 				#print out any messages that were added from previous round
-				print(messages[0],"\n")
+				print(messages[0] + Colors.DEFAULT,"\n")
 				#remove all messages from queue after printing
 				messages.clear()
 
-			option = input("Options:\n1. Guess letter\n2. Guess word\n\nSelection: ")
+			option = input(Colors.YELLOW + "Options:\n" + Colors.DEFAULT + "1. Guess letter\n2. Guess word\n\nSelection: ")
 			
 			if(option == "1"):
 				guess = input("Enter a letter: ")
@@ -177,18 +183,18 @@ def game_loop():
 						lives += 1
 						incorrect_guesses.add(guess)
 					else:
-						messages.append("You have already guessed " + guess.lower())
+						messages.append(Colors.RED + "You have already guessed " + Colors.YELLOW + guess.lower())
 				else:
 					if(check_letter(guess.lower(), correct_guesses) == 0):
 						num_guesses += 1
 						#add the new message from this round
-						messages.append("\nThere are "+ str(correct_letters[guess.lower()]) + " " + guess.lower() + "'s in the word.")
+						messages.append(Colors.GREEN + "\nThere are " + Colors.YELLOW + str(correct_letters[guess.lower()]) + Colors.GREEN + " " + guess.lower() + "'s in the word.")
 
 						#add current guess to correct guesses set and update score
 						correct_guesses[guess.lower()] = correct_letters[guess.lower()]
 						score += 1
 					else:
-						messages.append("You have already guessed " + guess.lower())
+						messages.append(Colors.RED + "You have already guessed " + Colors.YELLOW + guess.lower())
 
 
 			elif(option =="2"):
@@ -204,25 +210,25 @@ def game_loop():
 								score += 1
 						game_over = True
 					else:
-						messages.append(guess + " is not the chosen word")
+						messages.append(Colors.YELLOW + guess + Colors.RED + " is not the chosen word")
 				else:
-					messages.append("No more word guesses allowed")
+					messages.append(Colors.RED + "No more word guesses allowed")
 					
 			else:
-				messages.append("Invalid option")
+				messages.append(Colors.RED + "Invalid option")
 
 			if(game_over):
 				os.system('cls')
 
 				if(user_won(correct_guesses, correct_letters)):
 					score += 10 
-					print("\nYOU WON!\n")
-					print("Your Word Was:", chosen_word)
-					print("Current Score:", score)
+					print(Colors.GREEN + "\nYOU WON!\n" + Colors.DEFAULT)
+					print(Colors.YELLOW + "Your Word Was:" + Colors.DEFAULT, chosen_word)
+					print(Colors.YELLOW + "Current Score:" + Colors.DEFAULT, score)
 				else:
-					print("\nYOU LOSE!\n")
-					print("Your Word Was:", chosen_word)
-					print("Current Score:", score)
+					print(Colors.RED + "\nYOU LOSE!\n" + Colors.DEFAULT)
+					print(Colors.YELLOW + "Your Word Was:" + Colors.DEFAULT, chosen_word)
+					print(Colors.YELLOW + "Current Score:" + Colors.DEFAULT, score)
 				option = input("\nWould you like to play again? [Y or N]: ")
 
 				if(option.lower() == "y"):
@@ -236,7 +242,7 @@ def game_loop():
 				else:
 					os.system('cls')
 					print("======================================")
-					print(" Final Score", score)
+					print(Colors.CYAN + " Final Score:" + Colors.DEFAULT, score)
 					print("======================================")
 					game_exited = True
 					exit()
