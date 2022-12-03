@@ -119,7 +119,7 @@ def game_loop():
 	print(Colors.DEFAULT, Colors.CYAN,"        Welcome to hangman          ", Colors.DEFAULT)
 	print("======================================")
 	print(Colors.YELLOW,"Rules:", Colors.DEFAULT)
-	print(" * Select weather you want to pick a \n  word or letter.")
+	print(" * Select whether you want to pick a \n  word or letter.")
 	print(" * If you pick the wrong letter you\n  lose one life.")
 	print("======================================")
 	print(Colors.YELLOW,"Scoring:", Colors.DEFAULT)
